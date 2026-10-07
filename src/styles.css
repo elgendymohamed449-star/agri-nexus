@@ -1,16 +1,18 @@
 :root {
   --bg: #edf1ee;
-  --panel: rgba(255, 255, 255, 0.62);
-  --green-900: #113f35;
-  --green-800: #1a5648;
-  --green-700: #1b6a57;
+  --panel: rgba(255, 255, 255, 0.72);
+  --panel-strong: rgba(255, 255, 255, 0.9);
+  --green-900: #143f34;
+  --green-800: #1c5d4d;
+  --green-700: #1d7a5b;
   --green-100: #dff4ea;
   --text: #1d2430;
   --muted: #66727d;
-  --border: rgba(18, 35, 28, 0.12);
+  --border: rgba(16, 47, 39, 0.12);
   --shadow: 0 18px 34px rgba(9, 33, 27, 0.08);
   --amber: #f0bc61;
   --blue: #6b82d9;
+  --danger: #d55d5d;
 }
 
 * {
@@ -22,8 +24,12 @@
 
 html, body, #root {
   min-height: 100%;
-  background: var(--bg);
+  background: linear-gradient(180deg, #edf1ee 0%, #eaf4ee 100%);
   color: var(--text);
+}
+
+body {
+  transition: all 0.25s ease;
 }
 
 button, input {
@@ -32,7 +38,7 @@ button, input {
 
 button {
   cursor: pointer;
-}
+} 
 
 .loading {
   min-height: 100vh;
@@ -44,7 +50,7 @@ button {
 }
 
 .error {
-  color: #8f3d3d;
+  color: var(--danger);
 }
 
 .app-shell {
@@ -72,14 +78,15 @@ button {
 }
 
 .brand-logo {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
   display: grid;
   place-items: center;
   background: linear-gradient(135deg, #74d09c, #1a7c66);
   color: white;
   font-weight: 800;
+  box-shadow: 0 8px 18px rgba(26, 124, 102, 0.36);
 }
 
 .brand-text {
@@ -111,11 +118,17 @@ button {
   color: rgba(255,255,255,0.8);
   border-radius: 12px;
   font-size: 0.92rem;
+  transition: all 0.2s ease;
 }
 
 .nav-item.active {
   background: rgba(255,255,255,0.06);
   color: white;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+}
+
+.nav-item:hover {
+  background: rgba(255,255,255,0.04);
 }
 
 .nav-icon {
@@ -150,23 +163,33 @@ button {
 .topbar-right {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .ghost-btn, .profile-btn {
-  background: rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.75);
   border: 1px solid var(--border);
   color: var(--text);
-  border-radius: 10px;
-  min-width: 36px;
-  height: 32px;
+  border-radius: 12px;
+  min-width: 42px;
+  height: 34px;
+  transition: transform 0.2s ease;
+}
+
+.ghost-btn:hover, .profile-btn:hover, .small-btn:hover, .search-box button:hover, .tag:hover {
+  transform: translateY(-1px);
 }
 
 .profile-btn {
-  width: 32px;
+  width: 34px;
   border-radius: 50%;
   background: linear-gradient(135deg, #d9f3e5, #73c7a3);
   color: #0d2b25;
+  font-weight: 700;
+}
+
+.lang-toggle {
+  min-width: 52px;
   font-weight: 700;
 }
 
@@ -176,6 +199,7 @@ button {
   border-radius: 20px;
   box-shadow: var(--shadow);
   padding: 18px 18px 16px;
+  backdrop-filter: blur(10px);
 }
 
 .hero {
@@ -237,16 +261,17 @@ button {
 
 .search-box button {
   border: none;
-  background: var(--green-700);
+  background: linear-gradient(135deg, var(--green-700), var(--green-800));
   color: white;
   border-radius: 10px;
   padding: 9px 16px;
   font-weight: 700;
+  box-shadow: 0 10px 18px rgba(29, 122, 91, 0.18);
 }
 
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(200px, 1fr));
+  grid-template-columns: repeat(5, minmax(180px, 1fr));
   gap: 18px;
 }
 
@@ -260,6 +285,12 @@ button {
   padding: 16px;
   text-align: left;
   width: 100%;
+  transition: all 0.2s ease;
+}
+
+.crop-card:hover {
+  border-color: rgba(29, 122, 91, 0.22);
+  box-shadow: 0 14px 24px rgba(17, 63, 53, 0.08);
 }
 
 .card-icon {
@@ -416,6 +447,11 @@ button {
   border-radius: 14px;
   padding: 12px;
   text-align: left;
+  transition: all 0.2s ease;
+}
+
+.result-item:hover {
+  border-color: rgba(29, 122, 91, 0.18);
 }
 
 .result-item.selected {
@@ -705,6 +741,20 @@ button {
 
 .fav-tag, .fav-meta, .fav-date {
   color: var(--muted);
+}
+
+body[dir='rtl'] .topbar-left,
+body[dir='rtl'] .result-item,
+body[dir='rtl'] .topbar-right,
+body[dir='rtl'] .hero-head,
+body[dir='rtl'] .panel-header,
+body[dir='rtl'] .quick-chips,
+body[dir='rtl'] .brand,
+body[dir='rtl'] .detail-layout,
+body[dir='rtl'] .status-row,
+body[dir='rtl'] .table-row,
+body[dir='rtl'] .favorite-row {
+  direction: rtl;
 }
 
 @media (max-width: 1180px) {

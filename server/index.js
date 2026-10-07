@@ -21,12 +21,12 @@ const records = [
     source: 'CABI • IRAC',
     summary: 'Highly polyphagous lepidopteran pest attacking maize, sorghum, rice and other cereals.',
     summaryAr: 'آفة حرشفية متعددة العوائل تهاجم الذرة والذرة الرفيعة والأرز والمحاصيل الحبوبية.',
-    identification: 'Adults are grey-brown moths with a distinct pattern on the forewing; larvae have inverted Y on head and feed aggressively.',
+    identification: 'Adults are grey-brown moths with a distinct pattern on the forewing; larvae have an inverted Y on the head and feed aggressively.',
     identificationAr: 'اليرقات ذات رأس على شكل Y مقلوب وتغذي على الأوراق بنشاط، بينما تكون الفراشات رمادية بنية.',
     damage: 'Leaf feeding, whorl damage, stem tunneling and severe defoliation in maize.',
     damageAr: 'تسبب تمزق الأوراق، وتلف القلب، ونفوق النبات في المراحل المبكرة.',
     lifeCycle: 'Lifecycle completed in 2–4 weeks under warm conditions, facilitating rapid population build-up.',
-    lifeCycleAr: 'يكتمل دورة الحياة خلال 2–4 أسابيع في الظروف الدافئة، ما يسرّع تكاثرها.',
+    lifeCycleAr: 'تكتمل دورة الحياة خلال 2–4 أسابيع في الظروف الدافئة، ما يسرّع تكاثرها.',
     control: 'Biological control, pheromone traps, cultural practices, and selective insecticides such as chlorantraniliprole.',
     controlAr: 'المكافحة الحيوية، المصائد الفيرمونية، الممارسات الزراعية، ومبيدات انتقائية مثل كلورانترانيليبرويل.',
     activeIngredients: ['Chlorantraniliprole', 'Emamectin benzoate', 'Spinetoram'],
@@ -46,7 +46,7 @@ const records = [
     summary: 'Soil-borne fungal disease causing vascular wilting and plant collapse in many crops.',
     summaryAr: 'مرض فطري متوطن في التربة يسبب ذبولًا وعطلاً للنسج الوعائية في العديد من المحاصيل.',
     identification: 'Yellowing of lower leaves, wilting, browning of vascular tissue and plant death.',
-    identificationAr: 'اصفرار الأوراق السفلية، ذبول، تلوّن الأوعية، ثم موت النبات.',
+    identificationAr: 'اصفرار الأوراق السفلية، ذبول، تلون الأوعية، ثم موت النبات.',
     damage: 'Severe yield loss as the pathogen blocks water transport in the xylem.',
     damageAr: 'يؤدي إلى خسارة محصولية كبيرة بسبب انسداد انتقال الماء.',
     lifeCycle: 'Survives in soil and plant debris for several years under favorable conditions.',
@@ -168,7 +168,7 @@ const records = [
     identification: 'Systemic and translaminar activity with long residual control in crops.',
     identificationAr: 'نشاط نظامي وجانبي مع تأثير متبقٍ طويل في المحاصيل.',
     damage: 'Effective against yield-loss pests when larvae are feeding on foliage or fruits.',
-    damageAr: 'فعّال ضد الآفات التي تسبّب خسائر في المحصول أثناء تغذية اليرقات.',
+    damageAr: 'فعّال ضد الآفات التي تسبب خسائر في المحصول أثناء تغذية اليرقات.',
     lifeCycle: 'Not a biological lifecycle stage; instead it disrupts ryanodine receptors in insect muscles.',
     lifeCycleAr: 'ليس دورة حياة حيوية، بل يعيق مستقبلات ريانودين في عضلات الحشرة.',
     control: 'Used in integrated pest management programs to manage caterpillars and fruit worms.',
@@ -194,7 +194,7 @@ const records = [
     damage: 'Controls diseases including rusts, leaf spots and fruit rots.',
     damageAr: 'يُستخدم لمكافحة الصدأ، البقع الورقية، وتعفن الثمار.',
     lifeCycle: 'Used as a foliar treatment in several crop protection programs.',
-    lifeCycleAr: 'يستخدم كمعالجة ورقية في العديد من برامج وقاية المحاصيل.',
+    lifeCycleAr: 'يُستخدم كمعالجة ورقية في العديد من برامج وقاية المحاصيل.',
     control: 'Apply preventively and in alternation with different modes of action to reduce resistance.',
     controlAr: 'يُطبق وقائيًا ويُستبدل بمبيدات ذات آليات مختلفة لتقليل المقاومة.',
     activeIngredients: ['Azoxystrobin'],
@@ -268,7 +268,7 @@ const records = [
     lifeCycle: 'Usually 100–200 days depending on environment and sowing date.',
     lifeCycleAr: 'تستغرق دورة النمو عادة 100–200 يوم بحسب البيئة وتاريخ الزراعة.',
     control: 'Disease-resistant varieties, fertilization and timely irrigation.',
-    controlAr: 'أصناف مقاومة للأمراض، تسميد مناسب، وری في الوقت المناسب.',
+    controlAr: 'أصناف مقاومة للأمراض، تسميد مناسب، وري في الوقت المناسب.',
     activeIngredients: ['Nitrogen management', 'Disease control'],
     image: 'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=900&q=80'
   },
@@ -308,7 +308,7 @@ const records = [
     resistanceRisk: 'Medium',
     source: 'FAO • AVRDC',
     summary: 'High-value vegetable crop cultivated for fresh consumption and processing.',
-    summaryAr: 'خضار اقتصادي مهم يُزرع للاستهلاك الطازج والتجهيز الصناعي.',
+    summaryAr: 'خضار اقتصادي مهم يزرع للاستهلاك الطازج والتجهيز الصناعي.',
     identification: 'Shrub-like plant with compound leaves and red, yellow or pink fruit.',
     identificationAr: 'نبات شجيري بأوراق مركبة وثمار حمراء أو صفراء أو وردية.',
     damage: 'At risk from late blight, fruit borers and nutrient imbalance.',
@@ -334,7 +334,7 @@ const records = [
     summary: 'Popular cucumber vegetable grown for fresh market and pickling.',
     summaryAr: 'خضار شائع يُزرع للاستهلاك الطازج والتمليح.',
     identification: 'Vine crop with tendrils, rough leaves and elongated edible fruit.',
-    identificationAr: 'نبات متسلق بأوراق خشنه ومتسلّقات وثمار مستطيلة القوام.',
+    identificationAr: 'نبات متسلق بأوراق خشنة ومتسلّقات وثمار مستطيلة القوام.',
     damage: 'Susceptible to powdery mildew, downy mildew and fruit rot.',
     damageAr: 'يتأثر بالبياض الدقيقي، البياض الزغبي وتعفن الثمار.',
     lifeCycle: 'Rapid growth with harvest in 45–70 days after planting.',
@@ -382,7 +382,7 @@ const records = [
     summary: 'Fruit vegetable with varied colors and heat levels for fresh and processing markets.',
     summaryAr: 'خضار ثمري متنوع الألوان ودرجة الحرارة يُستعمل طازجًا ومصنّعًا.',
     identification: 'Bushy plant with fruits hanging in clusters and strong leaves.',
-    identificationAr: 'نبات شجيري مع ثمار معلّقة في مجموعات وأوراق قوية.',
+    identificationAr: 'نبات شجيري مع ثمار معلقة في مجموعات وأوراق قوية.',
     damage: 'Subject to anthracnose, bacterial spot and fruit worm attacks.',
     damageAr: 'يتأثر بعفن الأنتراكنوز، البقع البكتيرية، وثاقبات الثمار.',
     lifeCycle: 'Harvest starts around 60–90 days after transplanting.',
@@ -458,16 +458,14 @@ app.get('/api/search', (req, res) => {
           record.country,
           record.control,
           record.controlAr,
-          record.activeIngredients.join(' ')
+          record.activeIngredients.join(' '),
+          record.category
         ].join(' ').toLowerCase();
 
         return haystack.includes(q);
       });
 
-  res.json({
-    count: filtered.length,
-    items: filtered
-  });
+  res.json({ count: filtered.length, items: filtered });
 });
 
 app.get('/api/records/:id', (req, res) => {
@@ -477,6 +475,20 @@ app.get('/api/records/:id', (req, res) => {
   }
 
   res.json({ item });
+});
+
+app.get('/api/stats', (req, res) => {
+  const stats = {
+    total: records.length,
+    pests: records.filter((item) => item.category === 'pest').length,
+    diseases: records.filter((item) => item.category === 'disease').length,
+    weeds: records.filter((item) => item.category === 'weed').length,
+    crops: records.filter((item) => item.category === 'crop').length,
+    vegetables: records.filter((item) => item.category === 'vegetable').length,
+    ingredients: records.filter((item) => item.category === 'ingredient').length
+  };
+
+  res.json(stats);
 });
 
 app.get('/api/health', (req, res) => {

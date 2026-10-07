@@ -1,5 +1,87 @@
 import { useEffect, useMemo, useState } from 'react';
 
+const translations = {
+  en: {
+    brand: 'Agri Nexus',
+    subtitle: 'Agricultural Crop Protection',
+    home: 'Home',
+    cropProtection: 'Crop Protection',
+    fieldOverview: 'Field overview',
+    searchPlaceholder: 'Search pest, disease, weed, crop, vegetable, ingredient or MOA...',
+    search: 'Search',
+    results: 'Search Results',
+    dashboard: 'Dashboard',
+    favorites: 'Favorites',
+    quickAccess: 'Quick Access',
+    overview: 'Overview',
+    control: 'Control',
+    resistance: 'Resistance',
+    identification: 'Identification',
+    damage: 'Damage',
+    lifeCycle: 'Life Cycle',
+    summary: 'Summary',
+    whereFound: 'Where found',
+    relatedAI: 'Related active ingredients',
+    quickReference: 'Quick reference',
+    targetPests: 'Target pests',
+    management: 'Management',
+    modeOfAction: 'Mode of action',
+    all: 'All',
+    pests: 'Pests',
+    diseases: 'Diseases',
+    weeds: 'Weeds',
+    crops: 'Crops',
+    vegetables: 'Vegetables',
+    activeIngredients: 'Active Ingredients',
+    loading: 'Loading Agri Nexus...',
+    error: 'Unable to load agronomy data'
+  },
+  ar: {
+    brand: 'نيكسوس الزراعة',
+    subtitle: 'حماية المحاصيل والزراعة',
+    home: 'الرئيسية',
+    cropProtection: 'حماية المحاصيل',
+    fieldOverview: 'نظرة عامة',
+    searchPlaceholder: 'ابحث عن آفة أو مرض أو حشائش أو محصول أو خضار أو مادة فعالة...',
+    search: 'بحث',
+    results: 'نتائج البحث',
+    dashboard: 'لوحة التحكم',
+    favorites: 'المفضلة',
+    quickAccess: 'الوصول السريع',
+    overview: 'نظرة عامة',
+    control: 'المكافحة',
+    resistance: 'المقاومة',
+    identification: 'التعريف',
+    damage: 'الأضرار',
+    lifeCycle: 'دورة الحياة',
+    summary: 'ملخص',
+    whereFound: 'مكان الانتشار',
+    relatedAI: 'المواد الفعالة المرتبطة',
+    quickReference: 'مرجع سريع',
+    targetPests: 'الآفات المستهدفة',
+    management: 'الإدارة',
+    modeOfAction: 'آلية العمل',
+    all: 'الكل',
+    pests: 'الآفات',
+    diseases: 'الأمراض',
+    weeds: 'الحشائش',
+    crops: 'المحاصيل',
+    vegetables: 'الخضروات',
+    activeIngredients: 'المواد الفعالة',
+    loading: 'جاري تحميل Agri Nexus...',
+    error: 'تعذر تحميل بيانات الزراعة'
+  }
+};
+
+const categoryMeta = {
+  pest: { en: 'Pests', ar: 'الآفات', icon: '🐛', color: 'green', badge: 'Insect' },
+  disease: { en: 'Diseases', ar: 'الأمراض', icon: '🦠', color: 'blue', badge: 'Pathogen' },
+  weed: { en: 'Weeds', ar: 'الحشائش', icon: '🌿', color: 'amber', badge: 'Herbicide' },
+  crop: { en: 'Crops', ar: 'المحاصيل', icon: '🌾', color: 'green', badge: 'Crop' },
+  vegetable: { en: 'Vegetables', ar: 'الخضروات', icon: '🥬', color: 'blue', badge: 'Vegetable' },
+  ingredient: { en: 'Active Ingredients', ar: 'المواد الفعالة', icon: '🧪', color: 'gray', badge: 'AI' }
+};
+
 const sidebarItems = [
   'Dashboard',
   'Search',
@@ -28,15 +110,6 @@ const quickAccess = [
   { label: 'MOA', value: '4' }
 ];
 
-const categoryMeta = {
-  pest: { label: 'Pests', icon: '🐛', color: 'green', badge: 'Insect' },
-  disease: { label: 'Diseases', icon: '🦠', color: 'blue', badge: 'Pathogen' },
-  weed: { label: 'Weeds', icon: '🌿', color: 'amber', badge: 'Herbicide' },
-  crop: { label: 'Crops', icon: '🌾', color: 'green', badge: 'Crop' },
-  vegetable: { label: 'Vegetables', icon: '🥬', color: 'blue', badge: 'Vegetable' },
-  ingredient: { label: 'Active Ingredients', icon: '🧪', color: 'gray', badge: 'AI' }
-};
-
 function App() {
   const [records, setRecords] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -44,26 +117,36 @@ function App() {
   const [selectedId, setSelectedId] = useState('fall-armyworm');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [language, setLanguage] = useState('ar');
+
+  const t = translations[language];
+
+  useEffect(() => {
+    document.documentElement.lang = language;
+    document.body.dir = language === 'ar' ? 'rtl' : 'ltr';
+  }, [language]);
 
   useEffect(() => {
     const fetchRecords = async () => {
       try {
+        setLoading(true);
         const response = await fetch('/api/search?q=' + encodeURIComponent(query));
         if (!response.ok) throw new Error('Failed to load data');
         const data = await response.json();
-        setRecords(data.items || []);
-        if (data.items?.length) {
-          setSelectedId(data.items[0].id);
+        const items = data.items || [];
+        setRecords(items);
+        if (items.length && !items.some((item) => item.id === selectedId)) {
+          setSelectedId(items[0].id);
         }
       } catch (err) {
-        setError('Unable to load agronomy data');
+        setError(t.error);
       } finally {
         setLoading(false);
       }
     };
 
     fetchRecords();
-  }, [query]);
+  }, [query, t.error]);
 
   const filteredRecords = useMemo(() => {
     if (!records.length) return [];
@@ -80,6 +163,13 @@ function App() {
     });
   }, [records, selectedCategory]);
 
+  useEffect(() => {
+    if (!filteredRecords.length) return;
+    if (!filteredRecords.some((item) => item.id === selectedId)) {
+      setSelectedId(filteredRecords[0].id);
+    }
+  }, [filteredRecords, selectedId]);
+
   const selectedRecord =
     filteredRecords.find((item) => item.id === selectedId) ||
     records.find((item) => item.id === selectedId) ||
@@ -93,8 +183,21 @@ function App() {
     { key: 'Vegetables', info: categoryMeta.vegetable }
   ];
 
+  const getDisplayName = (record) => language === 'ar' ? (record.nameAr || record.name) : record.name;
+  const getDisplayScientific = (record) => language === 'ar' ? (record.scientificNameAr || record.scientificName) : record.scientificName;
+  const getDetailText = (enText, arText) => language === 'ar' ? (arText || enText) : (enText || arText);
+
+  const renderRecordBadge = (category) => {
+    if (category === 'pest') return 'P';
+    if (category === 'disease') return 'D';
+    if (category === 'weed') return 'W';
+    if (category === 'crop') return 'C';
+    if (category === 'vegetable') return 'V';
+    return 'AI';
+  };
+
   if (loading) {
-    return <div className="loading">Loading Agri Nexus...</div>;
+    return <div className="loading">{t.loading}</div>;
   }
 
   if (error) {
@@ -107,8 +210,8 @@ function App() {
         <div className="brand">
           <div className="brand-logo">F</div>
           <div className="brand-text">
-            <strong>Agri Nexus</strong>
-            <small>Agricultural Crop Protection</small>
+            <strong>{t.brand}</strong>
+            <small>{t.subtitle}</small>
           </div>
         </div>
 
@@ -128,12 +231,14 @@ function App() {
       <main className="content">
         <header className="topbar">
           <div className="topbar-left">
-            <span className="crumb">Home</span>
+            <span className="crumb">{t.home}</span>
             <span className="divider">›</span>
-            <span className="crumb">Crop Protection</span>
+            <span className="crumb">{t.cropProtection}</span>
           </div>
           <div className="topbar-right">
-            <button className="ghost-btn">EN</button>
+            <button className="ghost-btn lang-toggle" onClick={() => setLanguage((current) => current === 'en' ? 'ar' : 'en')}>
+              {language === 'en' ? 'AR' : 'EN'}
+            </button>
             <button className="profile-btn">S</button>
           </div>
         </header>
@@ -141,10 +246,10 @@ function App() {
         <section className="hero panel">
           <div className="hero-head">
             <div>
-              <h1>Agri Nexus</h1>
+              <h1>{t.brand}</h1>
             </div>
             <div className="hero-actions">
-              <span className="badge success">Field overview</span>
+              <span className="badge success">{t.fieldOverview}</span>
             </div>
           </div>
 
@@ -154,9 +259,9 @@ function App() {
               type="text"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search pest, disease, weed, crop, vegetable, active ingredient or MOA..."
+              placeholder={t.searchPlaceholder}
             />
-            <button>Search</button>
+            <button>{t.search}</button>
           </div>
 
           <div className="cards-grid">
@@ -164,8 +269,8 @@ function App() {
               <button key={key} className="crop-card" onClick={() => setSelectedCategory(key)}>
                 <div className={`card-icon ${info.color}`}>{info.icon}</div>
                 <div className="card-info">
-                  <h3>{key}</h3>
-                  <p>{info.label} affecting yield and crop health.</p>
+                  <h3>{language === 'ar' ? categoryMeta[key.toLowerCase().replace(/\s+/g, '')] ? categoryMeta[key.toLowerCase().replace(/\s+/g, '')].ar : key : key}</h3>
+                  <p>{language === 'ar' ? info.ar : info.en} affecting yield and crop health.</p>
                 </div>
                 <span>→</span>
               </button>
@@ -173,7 +278,7 @@ function App() {
           </div>
 
           <div className="quick-access">
-            <div className="quick-title">Quick Access</div>
+            <div className="quick-title">{t.quickAccess}</div>
             <div className="quick-chips">
               {quickAccess.map((item) => (
                 <div key={item.label} className="chip">
@@ -188,7 +293,7 @@ function App() {
         <section className="workspace-grid">
           <div className="panel">
             <div className="panel-header">
-              <h3>Search Results ({filteredRecords.length})</h3>
+              <h3>{t.results} ({filteredRecords.length})</h3>
               <div className="panel-tabs">
                 {filterOptions.map((option) => (
                   <button
@@ -196,7 +301,9 @@ function App() {
                     className={`tag ${selectedCategory === option ? 'green' : ''}`}
                     onClick={() => setSelectedCategory(option)}
                   >
-                    {option}
+                    {language === 'ar' ?
+                      (option === 'All' ? t.all : option === 'Pests' ? t.pests : option === 'Diseases' ? t.diseases : option === 'Weeds' ? t.weeds : option === 'Crops' ? t.crops : option === 'Vegetables' ? t.vegetables : t.activeIngredients) :
+                      option}
                   </button>
                 ))}
               </div>
@@ -209,10 +316,10 @@ function App() {
                   className={`result-item ${selectedRecord?.id === record.id ? 'selected' : ''}`}
                   onClick={() => setSelectedId(record.id)}
                 >
-                  <div className="icon-box">{record.category === 'pest' ? 'P' : record.category === 'disease' ? 'D' : record.category === 'weed' ? 'W' : record.category === 'crop' ? 'C' : record.category === 'vegetable' ? 'V' : 'AI'}</div>
+                  <div className="icon-box">{renderRecordBadge(record.category)}</div>
                   <div className="result-info">
-                    <strong>{record.nameAr || record.name}</strong>
-                    <small>{record.scientificNameAr || record.scientificName}</small>
+                    <strong>{getDisplayName(record)}</strong>
+                    <small>{getDisplayScientific(record)}</small>
                   </div>
                   <div className="mini-badge green">{record.iracGroup}</div>
                 </button>
@@ -223,7 +330,7 @@ function App() {
           {selectedRecord && (
             <div className="panel">
               <div className="panel-header">
-                <h3>{selectedRecord.nameAr || selectedRecord.name}</h3>
+                <h3>{getDisplayName(selectedRecord)}</h3>
                 <div className="header-actions">
                   <span className="tag success">{categoryMeta[selectedRecord.category]?.badge || 'Reference'}</span>
                   <span className="tag neutral">{selectedRecord.iracGroup}</span>
@@ -236,29 +343,29 @@ function App() {
                   style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.12), rgba(0,0,0,0.12)), url('${selectedRecord.image}')` }}
                 />
                 <div className="pest-meta">
-                  <span className="pill green">{selectedRecord.category}</span>
+                  <span className="pill green">{language === 'ar' ? categoryMeta[selectedRecord.category]?.ar : categoryMeta[selectedRecord.category]?.en}</span>
                   <span className="pill amber">{selectedRecord.resistanceRisk}</span>
                 </div>
               </div>
 
               <div className="detail-tabs">
-                <button className="tab active">Overview</button>
-                <button className="tab">Control</button>
-                <button className="tab">Resistance</button>
+                <button className="tab active">{t.overview}</button>
+                <button className="tab">{t.control}</button>
+                <button className="tab">{t.resistance}</button>
               </div>
 
               <div className="info-block">
                 <div className="info-row">
-                  <span className="label">Identification</span>
-                  <span>{selectedRecord.identificationAr || selectedRecord.identification}</span>
+                  <span className="label">{t.identification}</span>
+                  <span>{getDetailText(selectedRecord.identification, selectedRecord.identificationAr)}</span>
                 </div>
                 <div className="info-row">
-                  <span className="label">Damage</span>
-                  <span>{selectedRecord.damageAr || selectedRecord.damage}</span>
+                  <span className="label">{t.damage}</span>
+                  <span>{getDetailText(selectedRecord.damage, selectedRecord.damageAr)}</span>
                 </div>
                 <div className="info-row">
-                  <span className="label">Life Cycle</span>
-                  <span>{selectedRecord.lifeCycleAr || selectedRecord.lifeCycle}</span>
+                  <span className="label">{t.lifeCycle}</span>
+                  <span>{getDetailText(selectedRecord.lifeCycle, selectedRecord.lifeCycleAr)}</span>
                 </div>
               </div>
             </div>
@@ -269,9 +376,9 @@ function App() {
           <section className="lower-grid">
             <div className="panel wide">
               <div className="panel-header">
-                <h3>{selectedRecord.nameAr || selectedRecord.name}</h3>
+                <h3>{getDisplayName(selectedRecord)}</h3>
                 <div className="header-actions">
-                  <span className="tag blue">{categoryMeta[selectedRecord.category]?.label || 'Reference'}</span>
+                  <span className="tag blue">{language === 'ar' ? categoryMeta[selectedRecord.category]?.ar : categoryMeta[selectedRecord.category]?.en}</span>
                   <span className="tag neutral">{selectedRecord.source}</span>
                   <span className="tag warning">{selectedRecord.resistanceRisk}</span>
                 </div>
@@ -281,28 +388,28 @@ function App() {
                 <div className="detail-card">
                   <div className="mini-visual" style={{ backgroundImage: `url('${selectedRecord.image}')` }} />
                   <div className="detail-content">
-                    <h4>{selectedRecord.scientificNameAr || selectedRecord.scientificName}</h4>
+                    <h4>{getDisplayScientific(selectedRecord)}</h4>
                     <div className="status-row">
-                      <span className="mini-tag blue">{selectedRecord.category}</span>
+                      <span className="mini-tag blue">{language === 'ar' ? categoryMeta[selectedRecord.category]?.ar : categoryMeta[selectedRecord.category]?.en}</span>
                       <span className="mini-tag green">{selectedRecord.iracGroup}</span>
                       <span className="mini-tag amber">{selectedRecord.resistanceRisk}</span>
                     </div>
 
                     <div className="table-like">
                       <div className="table-row">
-                        <span>Where found</span>
+                        <span>{t.whereFound}</span>
                         <strong>{selectedRecord.country}</strong>
                       </div>
                       <div className="table-row">
-                        <span>Summary</span>
-                        <strong>{selectedRecord.summaryAr || selectedRecord.summary}</strong>
+                        <span>{t.summary}</span>
+                        <strong>{getDetailText(selectedRecord.summary, selectedRecord.summaryAr)}</strong>
                       </div>
                       <div className="table-row">
-                        <span>Control</span>
-                        <strong>{selectedRecord.controlAr || selectedRecord.control}</strong>
+                        <span>{t.control}</span>
+                        <strong>{getDetailText(selectedRecord.control, selectedRecord.controlAr)}</strong>
                       </div>
                       <div className="table-row">
-                        <span>Related active ingredients</span>
+                        <span>{t.relatedAI}</span>
                         <strong>{selectedRecord.activeIngredients?.join(', ')}</strong>
                       </div>
                     </div>
@@ -310,8 +417,8 @@ function App() {
                 </div>
 
                 <div className="related-box">
-                  <h4>Quick reference</h4>
-                  {['Target pests', 'Resistance', 'Mode of action', 'Management'].map((item) => (
+                  <h4>{t.quickReference}</h4>
+                  {[t.targetPests, t.resistance, t.modeOfAction, t.management].map((item) => (
                     <div key={item} className="related-item">
                       <span>{item}</span>
                       <button>›</button>
@@ -323,8 +430,8 @@ function App() {
 
             <div className="panel narrow">
               <div className="panel-header">
-                <h3>Favorites</h3>
-                <button className="small-btn">+ Add Favorites</button>
+                <h3>{t.favorites}</h3>
+                <button className="small-btn">+ {t.favorites}</button>
               </div>
 
               <div className="favorites-list">
@@ -346,3 +453,4 @@ function App() {
 }
 
 export default App;
+
