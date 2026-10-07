@@ -1,25 +1,47 @@
-# Agri Nexus
+# Agri Nexus Pro
 
-A crop protection dashboard inspired by agronomy reference platforms, using realistic agronomy data for key pests, diseases, weeds, and active ingredients.
+A professional crop protection dashboard inspired by agronomy research platforms, built with a React frontend and an Express API.
 
-## Features
+## Tech stack
 
-- Search for pests, diseases, weeds and active ingredients
-- Filter by category
-- Quick access to IRAC, FRAC, HRAC and MOA references
-- Data cards for agronomy references and management notes
-- Responsive layout for desktop and smaller screens
-
-## Stack
-
-- React
-- Vite
+- Frontend: React + Vite
+- Backend: Express.js
+- Data: Realistic agronomy data for pests, diseases, weeds and active ingredients
 
 ## Run locally
 
+1. Install dependencies:
+
 ```bash
 npm install
+```
+
+2. Start the app:
+
+```bash
 npm run dev
 ```
 
-The app will be available at http://localhost:3000.
+3. Open:
+
+```txt
+http://localhost:3000
+```
+
+The frontend uses the API at `http://localhost:5000` through a Vite proxy.
+
+## Production build
+
+```bash
+npm run build
+```
+
+## API
+
+- `GET /api/health`
+- `GET /api/search?q=armyworm`
+- `GET /api/records/:id`
+
+## Notes
+
+This project focuses on a realistic agronomy interface and clean architecture for future extension with authentication, database persistence, and advanced analytics.

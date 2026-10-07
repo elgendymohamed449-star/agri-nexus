@@ -1,11 +1,9 @@
 :root {
   --bg: #edf1ee;
   --panel: rgba(255, 255, 255, 0.62);
-  --panel-strong: rgba(255, 255, 255, 0.82);
   --green-900: #113f35;
   --green-800: #1a5648;
   --green-700: #1b6a57;
-  --green-600: #2d8d6d;
   --green-100: #dff4ea;
   --text: #1d2430;
   --muted: #66727d;
@@ -13,8 +11,6 @@
   --shadow: 0 18px 34px rgba(9, 33, 27, 0.08);
   --amber: #f0bc61;
   --blue: #6b82d9;
-  --purple: #9e8fe2;
-  --gray: #edf0f3;
 }
 
 * {
@@ -36,6 +32,19 @@ button, input {
 
 button {
   cursor: pointer;
+}
+
+.loading {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  font-size: 1.2rem;
+  color: var(--green-900);
+  background: var(--bg);
+}
+
+.error {
+  color: #8f3d3d;
 }
 
 .app-shell {
@@ -272,6 +281,10 @@ button {
 
 .card-icon.amber {
   background: linear-gradient(135deg, #f9ead2, #f3c870);
+}
+
+.card-icon.gray {
+  background: linear-gradient(135deg, #eef1f4, #dfe4eb);
 }
 
 .card-info {
