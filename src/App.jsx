@@ -20,7 +20,7 @@ const sidebarItems = [
   'About'
 ];
 
-const filterOptions = ['All', 'Pests', 'Diseases', 'Weeds', 'Active Ingredients'];
+const filterOptions = ['All', 'Pests', 'Diseases', 'Weeds', 'Crops', 'Vegetables', 'Active Ingredients'];
 const quickAccess = [
   { label: 'IRAC', value: '28-6' },
   { label: 'FRAC', value: '11' },
@@ -32,6 +32,8 @@ const categoryMeta = {
   pest: { label: 'Pests', icon: '🐛', color: 'green', badge: 'Insect' },
   disease: { label: 'Diseases', icon: '🦠', color: 'blue', badge: 'Pathogen' },
   weed: { label: 'Weeds', icon: '🌿', color: 'amber', badge: 'Herbicide' },
+  crop: { label: 'Crops', icon: '🌾', color: 'green', badge: 'Crop' },
+  vegetable: { label: 'Vegetables', icon: '🥬', color: 'blue', badge: 'Vegetable' },
   ingredient: { label: 'Active Ingredients', icon: '🧪', color: 'gray', badge: 'AI' }
 };
 
@@ -71,6 +73,8 @@ function App() {
       if (selectedCategory === 'Pests') return record.category === 'pest';
       if (selectedCategory === 'Diseases') return record.category === 'disease';
       if (selectedCategory === 'Weeds') return record.category === 'weed';
+      if (selectedCategory === 'Crops') return record.category === 'crop';
+      if (selectedCategory === 'Vegetables') return record.category === 'vegetable';
       if (selectedCategory === 'Active Ingredients') return record.category === 'ingredient';
       return true;
     });
@@ -84,7 +88,9 @@ function App() {
   const categoryCards = [
     { key: 'Pests', info: categoryMeta.pest },
     { key: 'Diseases', info: categoryMeta.disease },
-    { key: 'Weeds', info: categoryMeta.weed }
+    { key: 'Weeds', info: categoryMeta.weed },
+    { key: 'Crops', info: categoryMeta.crop },
+    { key: 'Vegetables', info: categoryMeta.vegetable }
   ];
 
   if (loading) {
@@ -148,7 +154,7 @@ function App() {
               type="text"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search pest, disease, weed, active ingredient or MOA..."
+              placeholder="Search pest, disease, weed, crop, vegetable, active ingredient or MOA..."
             />
             <button>Search</button>
           </div>
@@ -203,10 +209,10 @@ function App() {
                   className={`result-item ${selectedRecord?.id === record.id ? 'selected' : ''}`}
                   onClick={() => setSelectedId(record.id)}
                 >
-                  <div className="icon-box">{record.category === 'pest' ? 'P' : record.category === 'disease' ? 'D' : record.category === 'weed' ? 'W' : 'AI'}</div>
+                  <div className="icon-box">{record.category === 'pest' ? 'P' : record.category === 'disease' ? 'D' : record.category === 'weed' ? 'W' : record.category === 'crop' ? 'C' : record.category === 'vegetable' ? 'V' : 'AI'}</div>
                   <div className="result-info">
-                    <strong>{record.name}</strong>
-                    <small>{record.scientificName}</small>
+                    <strong>{record.nameAr || record.name}</strong>
+                    <small>{record.scientificNameAr || record.scientificName}</small>
                   </div>
                   <div className="mini-badge green">{record.iracGroup}</div>
                 </button>
@@ -217,7 +223,7 @@ function App() {
           {selectedRecord && (
             <div className="panel">
               <div className="panel-header">
-                <h3>{selectedRecord.name}</h3>
+                <h3>{selectedRecord.nameAr || selectedRecord.name}</h3>
                 <div className="header-actions">
                   <span className="tag success">{categoryMeta[selectedRecord.category]?.badge || 'Reference'}</span>
                   <span className="tag neutral">{selectedRecord.iracGroup}</span>
@@ -244,15 +250,15 @@ function App() {
               <div className="info-block">
                 <div className="info-row">
                   <span className="label">Identification</span>
-                  <span>{selectedRecord.identification}</span>
+                  <span>{selectedRecord.identificationAr || selectedRecord.identification}</span>
                 </div>
                 <div className="info-row">
                   <span className="label">Damage</span>
-                  <span>{selectedRecord.damage}</span>
+                  <span>{selectedRecord.damageAr || selectedRecord.damage}</span>
                 </div>
                 <div className="info-row">
                   <span className="label">Life Cycle</span>
-                  <span>{selectedRecord.lifeCycle}</span>
+                  <span>{selectedRecord.lifeCycleAr || selectedRecord.lifeCycle}</span>
                 </div>
               </div>
             </div>
@@ -263,7 +269,7 @@ function App() {
           <section className="lower-grid">
             <div className="panel wide">
               <div className="panel-header">
-                <h3>{selectedRecord.name}</h3>
+                <h3>{selectedRecord.nameAr || selectedRecord.name}</h3>
                 <div className="header-actions">
                   <span className="tag blue">{categoryMeta[selectedRecord.category]?.label || 'Reference'}</span>
                   <span className="tag neutral">{selectedRecord.source}</span>
@@ -275,7 +281,7 @@ function App() {
                 <div className="detail-card">
                   <div className="mini-visual" style={{ backgroundImage: `url('${selectedRecord.image}')` }} />
                   <div className="detail-content">
-                    <h4>{selectedRecord.scientificName}</h4>
+                    <h4>{selectedRecord.scientificNameAr || selectedRecord.scientificName}</h4>
                     <div className="status-row">
                       <span className="mini-tag blue">{selectedRecord.category}</span>
                       <span className="mini-tag green">{selectedRecord.iracGroup}</span>
@@ -289,15 +295,15 @@ function App() {
                       </div>
                       <div className="table-row">
                         <span>Summary</span>
-                        <strong>{selectedRecord.summary}</strong>
+                        <strong>{selectedRecord.summaryAr || selectedRecord.summary}</strong>
                       </div>
                       <div className="table-row">
                         <span>Control</span>
-                        <strong>{selectedRecord.control}</strong>
+                        <strong>{selectedRecord.controlAr || selectedRecord.control}</strong>
                       </div>
                       <div className="table-row">
                         <span>Related active ingredients</span>
-                        <strong>{selectedRecord.activeIngredients.join(', ')}</strong>
+                        <strong>{selectedRecord.activeIngredients?.join(', ')}</strong>
                       </div>
                     </div>
                   </div>
